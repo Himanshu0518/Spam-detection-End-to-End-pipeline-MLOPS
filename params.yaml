@@ -1,14 +1,13 @@
 data_ingestion:
-  test_size = 0.2
-  random_state = 22
+  test_size: 0.2
+  random_state: 22
 
 feature_engineering:
-  max_feature=100
+  max_feature: 100
 
-model_trainning :
-  num_estimators = 100
-  random_state = 22
+model_trainning:
+  num_estimators: 100
+  random_state: 22
 
-# Evaluation:
-  
-   
+# evaluation:
+#   (add fields here when ready)
