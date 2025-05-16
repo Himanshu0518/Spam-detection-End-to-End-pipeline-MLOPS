@@ -1,0 +1,105 @@
+schema: '2.0'
+stages:
+  data ingestion:
+    cmd: python .\src\data_ingestion.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: cd46832e988301dd4ee741d42d4e454b
+      size: 2676
+    outs:
+    - path: ./data/raw
+      hash: md5
+      md5: af7b010e7fda1d0a6e9984658cceb163.dir
+      size: 442870
+      nfiles: 2
+  data preprocess:
+    cmd: python .\src\preprocess.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: cd46832e988301dd4ee741d42d4e454b
+      size: 2676
+    - path: src/preprocess.py
+      hash: md5
+      md5: 5d58123eb38ad8cedaf024cf2ef08123
+      size: 3731
+    outs:
+    - path: ./data/interim
+      hash: md5
+      md5: 5b8d1f61f596f6830d19e7dbf100a210.dir
+      size: 253868
+      nfiles: 2
+  feature engineering:
+    cmd: python .\src\feature_engineering.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: cd46832e988301dd4ee741d42d4e454b
+      size: 2676
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: 865f44d9c25fe85aae26be31d7754814
+      size: 3436
+    - path: src/preprocess.py
+      hash: md5
+      md5: 5d58123eb38ad8cedaf024cf2ef08123
+      size: 3731
+    outs:
+    - path: ./data/processed
+      hash: md5
+      md5: bf96d922ad1a2844cc9dab775040a72f.dir
+      size: 2263324
+      nfiles: 2
+  model training:
+    cmd: python .\src\model_training.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: cd46832e988301dd4ee741d42d4e454b
+      size: 2676
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: 865f44d9c25fe85aae26be31d7754814
+      size: 3436
+    - path: src/model_training.py
+      hash: md5
+      md5: 4347921941379ea4fb8bfe0ff9bc1ff5
+      size: 2704
+    - path: src/preprocess.py
+      hash: md5
+      md5: 5d58123eb38ad8cedaf024cf2ef08123
+      size: 3731
+    outs:
+    - path: ./models/RandomForest.joblib
+      hash: md5
+      md5: 38d47f4e20afc023e05e3f689700c9cb
+      size: 2809457
+  Evaluation:
+    cmd: python .\src\Evaluation.py
+    deps:
+    - path: src/Evaluation.py
+      hash: md5
+      md5: e0af9decd3561f1ac4f732d795e807dd
+      size: 3068
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: cd46832e988301dd4ee741d42d4e454b
+      size: 2676
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: 865f44d9c25fe85aae26be31d7754814
+      size: 3436
+    - path: src/model_training.py
+      hash: md5
+      md5: 4347921941379ea4fb8bfe0ff9bc1ff5
+      size: 2704
+    - path: src/preprocess.py
+      hash: md5
+      md5: 5d58123eb38ad8cedaf024cf2ef08123
+      size: 3731
+    outs:
+    - path: ./report/metrics.json
+      hash: md5
+      md5: 06ce19c2f0331b45037196cf576071bc
+      size: 149
