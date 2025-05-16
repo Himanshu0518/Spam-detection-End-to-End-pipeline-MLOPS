@@ -88,7 +88,13 @@ def main():
 
     if train_df is not None and test_df is not None:
         logger.debug('Preprocessed data is loaded')
-        max_feature=  load_params(file_path='params.yaml')['feature_engineering']['max_feature']
+        params = load_params(file_path='params.yaml')
+
+        if params and 'feature_engineering' in params and 'max_feature' in params['feature_engineering']:
+            max_feature = params['feature_engineering']['max_feature']
+        else:
+            raise ValueError("Missing 'feature_engineering.max_feature' in params.yaml")
+
         train_df_tfidf, test_df_tfidf = feature_extraction(train_df, test_df , max_feature)
 
         if train_df_tfidf is not None and test_df_tfidf is not None:
