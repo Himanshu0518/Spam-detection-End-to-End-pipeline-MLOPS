@@ -34,7 +34,7 @@ def load_data(file_path):
         logger.error(f"Error loading data: {str(e)}")
         return None
 
-def train_model(train_df, test_df, model_tuple):
+def train_model(train_df, model_tuple):
     try:
         logger.debug(f"Training the model: {model_tuple[0]}")
         classifier = model_tuple[1]
@@ -78,7 +78,7 @@ def main():
             logger.error("Data loading failed. Exiting pipeline.")
             return
 
-        classifier = train_model(train_df, test_df, model)
+        classifier = train_model(train_df, model)
 
         if classifier:
             save_model(model[0], classifier)
