@@ -62,19 +62,21 @@ def train_model(train_df, model_tuple):
 
 def save_model(model_name, classifier):
     try:
-        logger.debug(f"Saving model '{model_name}' to ./models/")
-        os.makedirs('./models', exist_ok=True)
+        model_dir = './models'
+        os.makedirs(model_dir, exist_ok=True)
 
-        model_path = f'./models/{model_name}.joblib'
+        model_path = os.path.join(model_dir, f'{model_name}.joblib')
+        logger.debug(f"Saving model '{model_name}' to {model_path}")
+
         dump(classifier, model_path)
 
-        logger.debug(f"Model saved successfully at {model_path}")
+        logger.info(f"Model saved successfully at {model_path}")
     except Exception as e:
-        logger.error(f"Unable to save model: {str(e)}")
-
+        logger.error(f"Unable to save model '{model_name}': {str(e)}")
+        
 def main():
     try:
-        params = load_params(file_path='params.yaml')['model_trainninggit ']
+        params = load_params(file_path='params.yaml')['model_trainning']
 
         model = ('RandomForest', RandomForestClassifier(**params))
 
