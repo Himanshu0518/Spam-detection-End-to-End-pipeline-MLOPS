@@ -4,6 +4,8 @@ import json
 import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import joblib
+from dvclive import Live
+import yaml 
 
 # Setup logging
 os.makedirs('./logs', exist_ok=True)
@@ -79,6 +81,15 @@ def save_metrics(metrics, report_path):
     except Exception as e:
         logger.error(f"Error saving metrics: {str(e)}")
 
+def load_params(file_path='params.yaml'):
+    try:
+        with open(file_path, 'r') as f:
+            params = yaml.safe_load(f)
+        return params
+    except Exception as e:
+        print(f"Error loading parameters from {file_path}: {e}")
+        return None
+ 
 def main():
     test_df = load_data('./data/processed/tfidf_test_data.csv')
     model = load_model('./models/Randomforest.joblib')
@@ -91,6 +102,12 @@ def main():
             logger.error("Failed to evaluate model")
     else:
         logger.error("Model or test data not loaded")
+    
+    with Live(save_dvc_exp = True) as live:
+        live.log_metric('accuracy',metrics['accuracy'])
+        live.log_metric( 'precision',metrics[ 'precision'])
+        live.log_metric('recall',metrics['recall'])
+        live.log_params(load_params(file_path='params.yaml'))
 
 if __name__ == '__main__':
     main()

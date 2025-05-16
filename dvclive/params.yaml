@@ -8,6 +8,3 @@ feature_engineering:
 model_trainning:
   n_estimators: 100
   random_state: 22
-
-# evaluation:
-#   (add fields here when ready)
