@@ -2,7 +2,7 @@ import os
 import pandas as pd 
 import logging 
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+import yaml
 
 # Setup logging
 os.makedirs('./logs', exist_ok=True)
@@ -23,6 +23,15 @@ file_handler.setFormatter(formatter)
 if not logger.handlers:
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
+
+def load_params(file_path='params.yaml'):
+    try:
+        with open(file_path, 'r') as f:
+            params = yaml.safe_load(f)
+        return params
+    except Exception as e:
+        print(f"Error loading parameters from {file_path}: {e}")
+        return None
 
 # Load preprocessed data
 def load_data(file_path):
@@ -79,7 +88,7 @@ def main():
 
     if train_df is not None and test_df is not None:
         logger.debug('Preprocessed data is loaded')
-        max_feature=100
+        max_feature=  load_params(file_path='params.yaml')['feature_engineering']['max_feature']
         train_df_tfidf, test_df_tfidf = feature_extraction(train_df, test_df , max_feature)
 
         if train_df_tfidf is not None and test_df_tfidf is not None:

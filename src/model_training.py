@@ -3,6 +3,7 @@ import pandas as pd
 import logging
 from sklearn.ensemble import RandomForestClassifier
 from joblib import dump
+import yaml 
 
 # Setup logging
 os.makedirs('./logs', exist_ok=True)
@@ -24,6 +25,15 @@ if not logger.handlers:
     logger.addHandler(console_handler)
     logger.addHandler(file_handler)
 
+def load_params(file_path='params.yaml'):
+    try:
+        with open(file_path, 'r') as f:
+            params = yaml.safe_load(f)
+        return params
+    except Exception as e:
+        print(f"Error loading parameters from {file_path}: {e}")
+        return None
+ 
 def load_data(file_path):
     try:
         logger.debug(f"Loading data from {file_path}")
@@ -64,10 +74,7 @@ def save_model(model_name, classifier):
 
 def main():
     try:
-        params = {
-            'n_estimators': 50,
-            'random_state': 22
-        }
+        params = load_params(file_path='params.yaml')['model_trainninggit ']
 
         model = ('RandomForest', RandomForestClassifier(**params))
 

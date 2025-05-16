@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from sklearn.preprocessing import LabelEncoder 
 import re
-
+import yaml 
 
 # Setup logger
 logger = logging.getLogger('preprocess')
