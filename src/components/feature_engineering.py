@@ -1,28 +1,10 @@
 import os 
 import pandas as pd 
-import logging 
+from src.logger import logging 
 from sklearn.feature_extraction.text import TfidfVectorizer
 import yaml
+import joblib 
 
-# Setup logging
-os.makedirs('./logs', exist_ok=True)
-
-logger = logging.getLogger('feature_engineering')
-logger.setLevel(logging.DEBUG)
-
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.DEBUG)
-
-file_handler = logging.FileHandler('./logs/feature_engineering.log')
-file_handler.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-console_handler.setFormatter(formatter)
-file_handler.setFormatter(formatter)
-
-if not logger.handlers:
-    logger.addHandler(console_handler)
-    logger.addHandler(file_handler)
 
 def load_params(file_path='params.yaml'):
     try:
@@ -36,12 +18,12 @@ def load_params(file_path='params.yaml'):
 # Load preprocessed data
 def load_data(file_path):
     try:
-        logger.debug(f"Loading data from {file_path}")
+        logging.debug(f"Loading data from {file_path}")
         data = pd.read_csv(file_path)
-        logger.debug(f"Data loaded successfully. Shape: {data.shape}")
+        logging.debug(f"Data loaded successfully. Shape: {data.shape}")
         return data
     except Exception as e:
-        logger.error(f"Error loading data: {str(e)}")
+        logging.error(f"Error loading data: {str(e)}")
         return None
 
 # Extract TF-IDF features
@@ -50,7 +32,20 @@ def feature_extraction(train_df, test_df,max_feature):
         vectorizer = TfidfVectorizer(max_features=max_feature)
         X_train = vectorizer.fit_transform(train_df['text'].values)
         X_test = vectorizer.transform(test_df['text'].values)
+        
+        try:
+            model_dir = './models'
+            os.makedirs(model_dir, exist_ok=True)
 
+            model_path = os.path.join(model_dir, f'vectorizer.joblib')
+            logging.debug(f"Saving TfidfVectorizer in models folder ")
+
+            joblib.dump(vectorizer, model_path)
+
+            logging.info(f"Model saved successfully at {model_path}")
+        except Exception as e:
+           logging.error(f"Unable to save vectorizer:' {str(e)}")
+   
         # Assign feature names to columns
         feature_names = vectorizer.get_feature_names_out()
         train_features = pd.DataFrame(X_train.toarray(), columns=feature_names)
@@ -64,22 +59,22 @@ def feature_extraction(train_df, test_df,max_feature):
 
         return train_features, test_features
     except Exception as e:
-        logger.error("Error during feature extraction: %s", str(e))
+        logging.error("Error during feature extraction: %s", str(e))
         return None, None
 
 # Save data to disk
 def save_data(train_data, test_data, data_path):
     try:
-        logger.debug(f"Saving data to {data_path}")
+        logging.debug(f"Saving data to {data_path}")
         data_path = os.path.join(data_path, 'processed')
         os.makedirs(data_path, exist_ok=True)
 
         train_data.to_csv(os.path.join(data_path, 'tfidf_train_data.csv'), index=False)
         test_data.to_csv(os.path.join(data_path, 'tfidf_test_data.csv'), index=False)
 
-        logger.debug("Data saved successfully.")
+        logging.debug("Data saved successfully.")
     except Exception as e:
-        logger.error("Error saving data: %s", str(e))
+        logging.error("Error saving data: %s", str(e))
 
 # Main function
 def main():
@@ -87,7 +82,7 @@ def main():
     test_df = load_data('./data/interim/preprocessed_test_data.csv')
 
     if train_df is not None and test_df is not None:
-        logger.debug('Preprocessed data is loaded')
+        logging.debug('Preprocessed data is loaded')
         params = load_params(file_path='params.yaml')
 
         if params and 'feature_engineering' in params and 'max_feature' in params['feature_engineering']:
@@ -98,13 +93,13 @@ def main():
         train_df_tfidf, test_df_tfidf = feature_extraction(train_df, test_df , max_feature)
 
         if train_df_tfidf is not None and test_df_tfidf is not None:
-            logger.debug('Feature extraction is done')
+            logging.debug('Feature extraction is done')
             save_data(train_df_tfidf, test_df_tfidf, './data')
-            logger.debug('Vectorized data is saved')
+            logging.debug('Vectorized data is saved')
         else:
-            logger.error('TF-IDF feature extraction failed')
+            logging.error('TF-IDF feature extraction failed')
     else:
-        logger.error('Data loading failed')
+        logging.error('Data loading failed')
 
 
 if __name__ == '__main__':
