@@ -72,35 +72,36 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
    code . # to open this folder in  VS code 
 
 2. Create and Activate Virtual Environment
-
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
+```bash
+    python -m venv venv
+    source venv/bin/activate   # On Windows: venv\Scripts\activate
 
 3. Install Dependencies
-pip install -r requirements.txt
+  pip install -r requirements.txt
 
 4. Run Training Pipeline
-This step will train the model and save it to the models/ directory.
-python src/pipeline/trainning_pipeline.py
+    # This step will train the model and save it to the models/ directory.
+    python src/pipeline/trainning_pipeline.py
 
 5. 🧪 Running Locally
-python app.py
-Then open your browser and visit: http://127.0.0.1:5000
+    python app.py
+    # Then open your browser and visit: http://127.0.0.1:5000
 
 ## 📦 Data Versioning (DVC)
-This project uses DVC to version control data and model files.
+ # This project uses DVC to version control data and model files.
 
 * Basic DVC commands:
+# Initialize DVC:
+```bash
 
-Initialize DVC:
-dvc init
- 
-* Track dataset/model:
-dvc add data
-dvc add models
+    dvc init
+    
+    * Track dataset/model:
+    dvc add data
+    dvc add models
 
-git add dvc.yaml
-git commit -m "Track dataset and model with DVC"
+    git add dvc.yaml
+    git commit -m "Track dataset and model with DVC"
 
 
 🔍 Model Overview
