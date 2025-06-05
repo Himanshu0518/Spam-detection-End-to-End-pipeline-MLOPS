@@ -23,7 +23,6 @@ Paste any email content and instantly see whether it's classified as **Spam** or
 ---
 
 ## 📁 Project Structure
-## 📁 Project Structure
 
 ```text
 SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
@@ -81,8 +80,8 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
    pip install -r requirements.txt
 
 4. Run Training Pipeline
-    # This step will train the model and save it to the models/ directory.
      ```bash
+     # This step will train the model and save it to the models/ directory.
     python src/pipeline/trainning_pipeline.py
 
 5. 🧪 Running Locally
@@ -90,11 +89,12 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
     python app.py
     # Then open your browser and visit: http://127.0.0.1:5000
 
-## 📦 Data Versioning (DVC)
- # This project uses DVC to version control data and model files.
+# 📦 Data Versioning (DVC)
+  This project uses DVC to version control data and model files.
 
 * Basic DVC commands:
-# Initialize DVC:
+
+ Initialize DVC:
     ```bash
 
     dvc init
@@ -107,16 +107,16 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
     git commit -m "Track dataset and model with DVC"
 
 
-🔍 Model Overview
+## 🔍 Model Overview
 * Vectorizer: TF-IDF (Term Frequency–Inverse Document Frequency)
 * Classifier: Random Forest (with class balancing)
 * Evaluation Metrics: Accuracy, Precision, Recall
 
-🌐 Web Interface
+## 🌐 Web Interface
 Input: Any email/message text
 Output: Spam or Ham displayed on the page
 
-📌 Future Improvements
+## 📌 Future Improvements
 * Add more classifiers (Naive Bayes, XGBoost)
 * Integrate email scraping for live input
 * Deploy on cloud platforms (Render, Heroku, AWS)
