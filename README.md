@@ -23,42 +23,44 @@ Paste any email content and instantly see whether it's classified as **Spam** or
 ---
 
 ## 📁 Project Structure
+## 📁 Project Structure
 
+```text
 SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
 │
-├── app.py # Flask app entry point
-├── dvc.yaml # DVC pipeline config
+├── app.py                     # Flask app entry point
+├── dvc.yaml                   # DVC pipeline config
 ├── requirements.txt
 ├── README.md
 │
-├── models/ # Trained model and vectorizer
-│ ├── RandomForest.joblib
-│ └── vectorizer.joblib
+├── models/                    # Trained model and vectorizer (not pushed to GitHub)
+│   ├── RandomForest.joblib
+│   └── vectorizer.joblib
 │
-├── logs/ # Logs for tracking
+├── logs/                      # Logs for tracking
 │
-├── templates/ # HTML templates
-│ └── index.html
+├── templates/                 # HTML templates
+│   └── index.html
 │
 ├── src/
-│ ├── __init__.py
-│ ├── logger/
-│ │ └── __init__.py # Logging setup
-│ │
-│ ├── components/ # Core pipeline components
-│ │ ├── __init__.py
-│ │ ├── data_ingestion.py
-│ │ ├── preprocess.py
-│ │ ├── feature_engineering.py
-│ │ ├── model_trainning.py
-│ │ └── evaluation.py
-│ │
-│ └── pipeline/ # Pipelines for training and prediction
-│ ├── __init__.py
-│ ├── trainning_pipeline.py
-│ └── prediction_pipeline.py
+│   ├── __init__.py
+│   ├── logger/
+│   │   └── __init__.py        # Logging setup
+│   │
+│   ├── components/            # Core pipeline components
+│   │   ├── __init__.py
+│   │   ├── data_ingestion.py
+│   │   ├── preprocess.py
+│   │   ├── feature_engineering.py
+│   │   ├── model_trainning.py
+│   │   └── evaluation.py
+│   │
+│   └── pipeline/              # Pipelines for training and prediction
+│       ├── __init__.py
+│       ├── trainning_pipeline.py
+│       └── prediction_pipeline.py
 
-
+``` 
 ---
 
 ## 🛠️ Installation
@@ -67,7 +69,7 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
    ```bash
    git clone https://github.com/Himanshu0518/Spam-detection-End-to-End-pipeline-MLOPS.git
    cd Spam-detection-End-to-End-pipeline-MLOPS
-   write code . (to enter VS code)
+   code . # to open this folder in  VS code 
 
 2. Create and Activate Virtual Environment
 
