@@ -72,18 +72,21 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
    code . # to open this folder in  VS code 
 
 2. Create and Activate Virtual Environment
-```bash
+    ```bash
     python -m venv venv
     source venv/bin/activate   # On Windows: venv\Scripts\activate
 
 3. Install Dependencies
-  pip install -r requirements.txt
+    ```bash
+   pip install -r requirements.txt
 
 4. Run Training Pipeline
     # This step will train the model and save it to the models/ directory.
+     ```bash
     python src/pipeline/trainning_pipeline.py
 
 5. 🧪 Running Locally
+     ```bash
     python app.py
     # Then open your browser and visit: http://127.0.0.1:5000
 
@@ -92,7 +95,7 @@ SPAM-DETECTION-END-TO-END-PIPELINE-MLOPS/
 
 * Basic DVC commands:
 # Initialize DVC:
-```bash
+    ```bash
 
     dvc init
     
