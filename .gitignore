@@ -176,4 +176,7 @@ cython_debug/
 /data/
 /models/
 /report/
+<<<<<<< HEAD
 credentials.json
+=======
+>>>>>>> da1bad4c84c7f59dc82aa1bf26d2871647579b08

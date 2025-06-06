@@ -3,7 +3,20 @@ import pandas as pd
 import logging
 from sklearn.model_selection import train_test_split
 from src.logger import logging
+<<<<<<< HEAD
 from src.utils.main_utils import load_data
+=======
+
+# Load CSV data
+def load_data(file_path):
+    try:
+        logging.debug(f"Loading data from {file_path}")
+        data = pd.read_csv(file_path)
+        logging.debug(f"Data loaded successfully. Shape: {data.shape}")
+        return data
+    except Exception as e:
+        logging.error(f"Error loading data: {str(e)}")
+>>>>>>> da1bad4c84c7f59dc82aa1bf26d2871647579b08
 
 # Clean data
 def preprocess(df):

@@ -4,7 +4,11 @@ from src.logger import logging
 from sklearn.feature_extraction.text import TfidfVectorizer
 import yaml
 import joblib 
+<<<<<<< HEAD
 from src.utils.main_utils import load_data
+=======
+
+>>>>>>> da1bad4c84c7f59dc82aa1bf26d2871647579b08
 
 def load_params(file_path='params.yaml'):
     try:
@@ -15,6 +19,19 @@ def load_params(file_path='params.yaml'):
         print(f"Error loading parameters from {file_path}: {e}")
         return None
 
+<<<<<<< HEAD
+=======
+# Load preprocessed data
+def load_data(file_path):
+    try:
+        logging.debug(f"Loading data from {file_path}")
+        data = pd.read_csv(file_path)
+        logging.debug(f"Data loaded successfully. Shape: {data.shape}")
+        return data
+    except Exception as e:
+        logging.error(f"Error loading data: {str(e)}")
+        return None
+>>>>>>> da1bad4c84c7f59dc82aa1bf26d2871647579b08
 
 # Extract TF-IDF features
 def feature_extraction(train_df, test_df,max_feature):
