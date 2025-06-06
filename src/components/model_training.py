@@ -4,7 +4,7 @@ from src.logger import logging
 from sklearn.ensemble import RandomForestClassifier
 from joblib import dump
 import yaml 
-
+from src.utils.main_utils import load_data
 
 def load_params(file_path='params.yaml'):
     try:
@@ -15,16 +15,6 @@ def load_params(file_path='params.yaml'):
         print(f"Error loading parameters from {file_path}: {e}")
         return None
  
-def load_data(file_path):
-    try:
-        logging.debug(f"Loading data from {file_path}")
-        data = pd.read_csv(file_path)
-        logging.debug(f"Data loaded successfully. Shape: {data.shape}")
-        return data
-    except Exception as e:
-        logging.error(f"Error loading data: {str(e)}")
-        return None
-
 def train_model(train_df, model_tuple):
     try:
         logging.debug(f"Training the model: {model_tuple[0]}")

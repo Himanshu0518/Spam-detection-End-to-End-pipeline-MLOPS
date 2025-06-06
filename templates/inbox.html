@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gmail Inbox Classification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='css/inbox.css') }}">
+     <link rel="stylesheet"  href="{{ url_for('static', filename='scripts/inbox.js') }}">
+
+
+</head>
+<body>
+    <a href="/" class="back-btn">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <h1>Gmail Inbox Classification</h1>
+            <p class="subtitle">Connect your Gmail account to analyze your recent emails for spam detection</p>
+        </div>
+
+        <div class="oauth-info">
+            <i class="fas fa-info-circle"></i>
+            <div class="oauth-info-text">
+                <h3>Secure Gmail Integration</h3>
+                <p>We use Google's secure OAuth 2.0 to access your emails. Your credentials are never stored, and we only read email content for classification purposes.</p>
+                {% if authenticated %}
+                    <p style="color: #4CAF50; font-weight: bold; margin-top: 10px;">
+                        <i class="fas fa-check-circle"></i> Gmail account is authenticated and ready!
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if not authenticated %}
+        <a href="{{ url_for('oauth') }}" class="auth-btn">
+            <i class="fas fa-shield-alt"></i> Authenticate Account
+        </a>
+        {% else %}
+        <div style="margin: 20px 30px; padding: 15px; background: #e8f5e8; border-radius: 8px; color: #2e7d32;">
+            <i class="fas fa-check-circle"></i> Account authenticated successfully! You can now fetch and analyze emails.
+        </div>
+        {% endif %}
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('inbox') }}" method="post" class="fetch-form" id="fetchForm" {% if not authenticated %}style="opacity: 0.5; pointer-events: none;"{% endif %}>
+            <div class="form-group">
+                <label for="num_emails">Number of Recent Emails to Analyze</label>
+                <div class="input-container">
+                    <input type="number" 
+                           id="num_emails" 
+                           name="num_emails" 
+                           min="1" 
+                           max="50" 
+                           value="10" 
+                           required
+                           {% if not authenticated %}disabled{% endif %}>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn" {% if not authenticated %}disabled{% endif %}>
+                <i class="fas fa-sync-alt" id="submitIcon"></i>
+                <span id="submitText">
+                    {% if not authenticated %}
+                        Please Authenticate First
+                    {% else %}
+                        Fetch & Analyze Emails
+                    {% endif %}
+                </span>
+            </button>
+        </form>
+
+        {% if num_emails %}
+        <div class="emails-container fade-in">
+            <div class="emails-header">
+                <div class="emails-title">
+                    <i class="fas fa-envelope"></i>
+                    Recent Emails
+                    <span class="email-count">{{ emails|length }}</span>
+                </div>
+            </div>
+        {% for email, report in emails.items() %}
+<div class="email-item {% if 'Spam' in report %}email-spam{% else %}email-ham{% endif %} fade-in">
+    <div class="email-header">
+        <div class="email-status {% if 'Spam' in report %}status-spam{% else %}status-ham{% endif %}">
+            <i class="fas {% if 'Spam' in report %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %}"></i>
+            {{ report }}
+        </div>
+    </div>
+
+    <div class="email-content" style="max-height: 150px; overflow: hidden;">
+        {{ email | e | replace('\n', '<br>') | safe | truncate(800) }}
+    </div>
+
+    <div class="email-actions">
+        <button class="action-btn" onclick="copyToClipboard(`{{ email | e | replace('`', '\\`') }}`)">
+            <i class="fas fa-copy"></i> Copy
+        </button>
+        <button class="action-btn" onclick="toggleExpand(this)">
+            <i class="fas fa-expand"></i> Expand
+        </button>
+    </div>
+</div>
+{% endfor %}
+
+          
+        </div>
+        {% endif %}
+    </div>
+
+  
+</body>
+</html>
