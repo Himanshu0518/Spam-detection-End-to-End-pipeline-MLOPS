@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from flask import Flask, request, render_template, redirect, session, url_for, flash
 from src.pipeline.prediction_pipeline import SpamClassifier
 from src.logger import logging
@@ -10,18 +9,10 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 app = Flask(__name__)
 app.secret_key = 'your-super-secret-key' 
 
-=======
-from flask import Flask, request, render_template
-from src.pipeline.prediction_pipeline import SpamClassifier
-from src.logger import logging
-
-app = Flask(__name__)
->>>>>>> da1bad4c84c7f59dc82aa1bf26d2871647579b08
 classifier = SpamClassifier()
 
 @app.route('/')
 def index():
-<<<<<<< HEAD
     return render_template('index.html')  # Shows two options: custom or inbox
 
 @app.route('/custom', methods=['GET', 'POST'])
@@ -132,19 +123,3 @@ def inbox():
 
 if __name__ == '__main__':
     app.run(debug=True)
-=======
-    return render_template('index.html')
-
-@app.route('/predict', methods=['POST'])
-def predict_result():
-    message = request.form.get('message', '')
-    if message.strip():  # check if message is not just whitespace
-        logging.info(f"Received message: {message}")
-        prediction = classifier.predict_single(message)
-        return render_template('index.html', prediction=prediction, input_text=message)
-    else:
-        return render_template('index.html', prediction=None, input_text='')
-
-if __name__ == '__main__':
-    app.run(debug=True)
->>>>>>> da1bad4c84c7f59dc82aa1bf26d2871647579b08
